@@ -1,1 +1,2 @@
-*.Velilog linguist-detectable=true
+* linguist-vendored
+*.velilog linguist-vendored=false
