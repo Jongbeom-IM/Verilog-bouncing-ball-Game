@@ -40,20 +40,33 @@ The bouncing ball game described in Verilog HDL. The top.mod outputs RGB values 
   </tr>
 </table>
 
-1) ball_y_reg : 공의 수직 좌표
-2) ball_vy_reg : 공의 수직 속도
-3) BALL_A : 수직 아래 방향 const 한 가속도
-4) ball_x_reg : 공의 수평 좌표
-5) ball_y_b : 공의 바닥 면 좌표
-6) bar_y_t : bar의 윗면 좌표
+1 ) ball_y_reg : 공의 수직 좌표
+2 ) ball_vy_reg : 공의 수직 속도
+3 ) BALL_A : 수직 아래 방향 const 한 가속도
+
+4 ) ball_x_reg : 공의 수평 좌표
+5 ) ball_y_b : 공의 바닥 면 좌표
+6 ) bar_y_t : bar의 윗면 좌표
 
 ### This game follows the following flow chart
 ![image](https://user-images.githubusercontent.com/80473250/166265171-77e942e9-9fc7-459b-8032-9d1d8e001f3c.png)
 
-1) 공의 수직 좌표 운동은 단위 시간에 대해 준 식으로 표현 가능하며, 이때  도 서술한다.
+1 ) 공의 수직 좌표 운동은 단위 시간에 대해 준 식으로 표현 가능하며, 이때 속도도 "*"로 서술한다.
+![image](https://user-images.githubusercontent.com/80473250/166266876-0307129f-9678-417b-bb95-a572920c8aa5.png)
 
-따라서 ball_y_reg = ball_y_reg + ball_vy_reg 이며, ball_vy_reg = ball_vy_reg + BALL_A 다.
+_**따라서 ball_y_reg = ball_y_reg + ball_vy_reg 이며, ball_vy_reg = ball_vy_reg + BALL_A 다.**_
 
+2 ) 키 패드를 눌렀을 때 if(key_pad == ***)으로 식별하여 수평 좌표를 제어하며, ball_x_reg = ball_x_reg + BALL_V 이다.
+
+3 ) 공의 x,y 좌표가 결정되었을 때 gound 를 포함하여 bar(1~6)까지의 폭, 너비, 좌표와 공
+의 위치, flag_input을 instance 한 reach_floor 모듈의 input으로 설정하여 공이 땅에 닿았는지 모니터링하여 output으로 flag_output을 출력
+
+4 ) 공이 땅에 닿았을 때( ball_y_b >= ball_y_t ), flag_output은 ~flag_input으로 변경된다. graph_mod 모듈에서 두 flag가 같지 않을 때를 “땅에 닿았다”라고 판단하여 공을 수직 위로 발사( ball_vy_reg = -1 * 20 )한다.
+
+5 ) 함정 bar의 경우 reach_floor에 들어가는 flag가 dead_flag_input과 dead_flag_output이며, 마찬가지로, graph_mod 모듈에서 두 flag가 같지 않을 때를 “함정에 닿았다”라고 판단하여 life를 1회 차감하고 다시 게임을 실행한다.
+
+*위 3~5 과정은 reach_floor 모듈로 설계했으며 graph_mod 모듈에서 bar마다 instantiation
+하여 설계한다.*
 
 ### Target board : Libertron ZYNQ Starter Kit
 ![image](https://user-images.githubusercontent.com/80473250/165802459-fc9b9679-4769-4b79-ba48-462de958ab81.png)
