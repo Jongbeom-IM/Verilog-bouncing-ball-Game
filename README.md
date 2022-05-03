@@ -52,6 +52,7 @@ The bouncing ball game described in Verilog HDL. The top.mod outputs RGB values 
 ![image](https://user-images.githubusercontent.com/80473250/166265171-77e942e9-9fc7-459b-8032-9d1d8e001f3c.png)
 
 1 ) 공의 수직 좌표 운동은 단위 시간에 대해 준 식으로 표현 가능하며, 이때 속도도 "*"로 서술한다.
+
 ![image](https://user-images.githubusercontent.com/80473250/166266876-0307129f-9678-417b-bb95-a572920c8aa5.png)
 
 _**따라서 ball_y_reg = ball_y_reg + ball_vy_reg 이며, ball_vy_reg = ball_vy_reg + BALL_A 다.**_
